@@ -1,24 +1,44 @@
-// set up current date with Day, Month, Date format
-var currentDay = document.querySelector("#currentDay");
+// element which displays the current date
+var date = moment().format("dddd, MMMM, Do, YYYY")
+$('#currentDay').text(date) 
 
-currentDay.moment()
+var timeBlock = $(".time-block")
+var currentTime = moment().hour()
+var saveBtn = $('.saveBtn')
 
+function setColors() {
+  timeBlock.each(function() {
+    var hour = $(this).attr("id")
 
-// scheduler container
+    if (currentTime > hour) {
+      $(this).addClass('past')
+    }
+    if (currentTime == hour) {
+      $(this).removeClass('past')
+      $(this).addClass('present')
+    }
+    if (currentTime < hour) {
+      $(this).removeClass('past')
+      $(this).removeClass('present')
+      $(this).addClass('future')
+    }
+  })
+}
 
-// give each timeblock a time id and class based on time and screen it
-// append to div id currentDay (innerText)
+saveBtn.on('click', function(event) {
+  event.preventDefault()
+  var timeId = $(this).attr('id')
+  var task = $(this).siblings(".time-block").val()
+  localStorage.setItem(timeId, task)
+  showTask()
+})
 
-// div for element displaying time, div for middle text box, div for save button
+function showTask() {
+  for (var i = 9; i < 18; i++) {
+    var getTask = localStorage.getItem(i)
+    $("#" + i).text(getTask)
+  }
+}
 
-// color code time blocks based on past, present, future
-// set classes through js to change colors based on current time
-
-// click listener on button save text box/prompt event to localStorage
-// key: value
-// key - time
-// value - text
-
-// check save
-// if no save, create empty object/array/etc.
-// otherwise fill timeblocks with localStorage
+showTask()
+setColors()
