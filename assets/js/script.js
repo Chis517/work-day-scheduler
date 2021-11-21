@@ -2,6 +2,7 @@
 var date = moment().format("dddd, MMMM, Do, YYYY")
 $('#currentDay').text(date) 
 
+// variables to call the time-block, save the users tasks and call moment for the current hour for the setColors function
 var timeBlock = $(".time-block")
 var currentTime = moment().hour()
 var saveTask = $('.saveTask')
@@ -26,6 +27,7 @@ function setColors() {
   })
 };
 
+// on click function to save tasks written within the time-block
 saveTask.on('click', function(event) {
   event.preventDefault()
   var timeId = $(this).attr('id')
@@ -34,6 +36,7 @@ saveTask.on('click', function(event) {
   showTask()
 });
 
+// function that saves tasks to localStorage
 function showTask() {
   for (var i = 9; i < 18; i++) {
     var getTask = localStorage.getItem(i)
